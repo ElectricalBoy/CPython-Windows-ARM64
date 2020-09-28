@@ -12,6 +12,6 @@ jobs:
       - name: Compile Python
         run: |
           curl -L -s https://github.com/python/cpython/archive/v${pyver}.tar.gz -o python.tar.gz
-          tar xf python.tar.gz
+          tar -xzvf python.tar.gz
           cd "cpython-${pyver}"
           PCbuild\build.bat -e -p ARM64
