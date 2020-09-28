@@ -6,12 +6,12 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        pyver: ['3.9.0rc2']
+        python-version: ['3.9.0rc2']
 
     steps:
       - name: Compile Python
         run: |
-          curl -L -s https://github.com/python/cpython/archive/v${pyver}.tar.gz -o python.tar.gz
+          curl -L -s https://github.com/python/cpython/archive/v${{ matrix.python-version }}.tar.gz -o python.tar.gz
           tar -xzvf python.tar.gz
-          cd "cpython-${pyver}"
+          cd "cpython-${{ matrix.python-version }}"
           PCbuild\build.bat -e -p ARM64
