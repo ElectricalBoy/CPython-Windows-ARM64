@@ -23,7 +23,7 @@ jobs:
       - name: Create zip
         shell: cmd
         run: |
-          mkdir cpython-${{ m atrix.python-version }}\PCBuild\arm64\lib
+          mkdir cpython-${{ matrix.python-version }}\PCBuild\arm64\lib
           mkdir cpython-${{ matrix.python-version }}\PCBuild\arm64\include
           mkdir cpython-${{ matrix.python-version }}\PCBuild\arm64\libs
           
