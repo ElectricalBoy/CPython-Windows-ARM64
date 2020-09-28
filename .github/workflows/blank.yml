@@ -15,3 +15,26 @@ jobs:
           tar -xzvf python.tar.gz
           cd "cpython-${{ matrix.python-version }}"
           PCbuild\build.bat -e -p ARM64
+
+      - name: Install 7Zip PowerShell Module
+        shell: powershell
+        run: Install-Module 7Zip4PowerShell -Force -Verbose
+
+      - name: Create zip
+        shell: cmd
+        run: |
+          mkdir cpython-${{ m atrix.python-version }}\PCBuild\arm64\lib
+          mkdir cpython-${{ matrix.python-version }}\PCBuild\arm64\include
+          mkdir cpython-${{ matrix.python-version }}\PCBuild\arm64\libs
+          
+          xcopy /i /e cpython-${{ matrix.python-version }}\lib\*.* cpython-${{ matrix.python-version }}\PCBuild\arm64\lib
+          xcopy /i /e cpython-${{ matrix.python-version }}\include\*.* cpython-${{ matrix.python-version }}\PCBuild\arm64\include
+          xcopy /i /e cpython-${{ matrix.python-version }}\PC\pyconfig.h cpython-${{ matrix.python-version }}\PCBuild\arm64\include
+          xcopy /i /e cpython-${{ matrix.python-version }}\PCBuild\arm64\python*.lib cpython-${{ matrix.python-version }}\PCBuild\arm64\libs
+          
+          powershell Compress-7Zip "cpython-${{ matrix.python-version }}\PCBuild\arm64" -ArchiveFileName "cpython-arm64-${{ matrix.python-version }}.zip" -Format Zip
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: cpython-arm64-${{ matrix.python-version }}.zip
+          path: cpython-arm64-${{ matrix.python-version }}.zip
