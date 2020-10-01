@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         python-remote: ['https://github.com/ader1990/cpython']
-        python-branch: ['win_arm64_hack']
+        python-branch: ['39_win_arm64_hack']
 
     steps:
       - name: Compile Python
@@ -16,10 +16,6 @@ jobs:
           cd cpython
           git checkout ${{ matrix.python-branch }}
           PCbuild\build.bat -e -p ARM64
-
-      - name: Install 7Zip PowerShell Module
-        shell: powershell
-        run: Install-Module 7Zip4PowerShell -Force -Verbose
 
       - name: Create zip
         shell: cmd
@@ -31,12 +27,10 @@ jobs:
           xcopy /i /e cpython\lib\*.* cpython\PCBuild\arm64\lib
           xcopy /i /e cpython\include\*.* cpython\PCBuild\arm64\include
           xcopy /i /e cpython\PC\pyconfig.h cpython\PCBuild\arm64\include
-          xcopy /i /e cpython\PCBuild\arm64\python3.lib cpython\PCBuild\arm64\libs
-          xcopy /i /e cpython\PCBuild\arm64\python39.lib cpython\PCBuild\arm64\libs
-          
-          powershell Compress-7Zip "cpython\PCBuild\arm64" -ArchiveFileName "cpython-arm64.zip" -Format Zip
+          xcopy /i /e cpython\PCBuild\arm64\python3.lib cpython\PCBuild\arm64\libs\python3.lib
+          xcopy /i /e cpython\PCBuild\arm64\python39.lib cpython\PCBuild\arm64\libs\python39.lib
 
       - uses: actions/upload-artifact@v1
         with:
-          name: cpython-arm64.zip
-          path: cpython-arm64.zip
+          name: cpython-arm64
+          path: cpython\PCBuild\arm64
