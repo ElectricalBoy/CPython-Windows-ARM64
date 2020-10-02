@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         python-remote: ['https://github.com/ader1990/cpython']
-        python-branch: ['39_win_arm64_hack']
+        python-branch: ['tags/v3.9.0rc2']
 
     steps:
       - name: Compile Python
