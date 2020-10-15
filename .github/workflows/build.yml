@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         python-remote: ['https://github.com/ader1990/cpython']
-        python-branch: ['tags/v3.9.0rc2']
+        python-branch: ['v3.8.5-win-arm64']
 
     steps:
       - name: Compile Python
@@ -27,8 +27,7 @@ jobs:
           xcopy /i /e cpython\lib\*.* cpython\PCBuild\arm64\lib
           xcopy /i /e cpython\include\*.* cpython\PCBuild\arm64\include
           xcopy /i /e cpython\PC\pyconfig.h cpython\PCBuild\arm64\include
-          cp cpython\PCBuild\arm64\python3.lib cpython\PCBuild\arm64\libs\python3.lib
-          cp cpython\PCBuild\arm64\python39.lib cpython\PCBuild\arm64\libs\python39.lib
+          cp cpython\PCBuild\arm64\python3*.lib cpython\PCBuild\arm64\libs\
 
       - uses: actions/upload-artifact@v1
         with:
