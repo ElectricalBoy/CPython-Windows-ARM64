@@ -27,7 +27,7 @@ jobs:
           xcopy /i /e cpython\lib\*.* cpython\PCBuild\arm64\lib
           xcopy /i /e cpython\include\*.* cpython\PCBuild\arm64\include
           xcopy /i /e cpython\PC\pyconfig.h cpython\PCBuild\arm64\include
-          cp cpython\PCBuild\arm64\python3*.lib cpython\PCBuild\arm64\libs\
+          xcopy.exe /y "cpython\PCBuild\arm64\python*.lib" "cpython\PCBuild\arm64\libs\"
 
       - uses: actions/upload-artifact@v1
         with:
