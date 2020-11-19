@@ -6,9 +6,9 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        python-remote: ['https://github.com/ader1990/cpython']
-        python-branch: ['v3.8.5-win-arm64']
-        python-arch: ['arm64']
+        python-remote: ['https://github.com/cpython/cpython']
+        python-branch: ['v3.9.0']
+        python-arch: ['amd64']
 
     steps:
       - name: Compile Python
