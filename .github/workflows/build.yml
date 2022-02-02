@@ -11,25 +11,29 @@ jobs:
         python-arch: ['arm64']
 
     steps:
+      - name: Clone source
+        run:  |
+          git clone ${{ matrix.python-remote }}
+    
       - name: Compile Python
         run: |
-          git clone ${{ matrix.python-remote }}
           cd cpython
           git checkout ${{ matrix.python-branch }}
           PCbuild\build.bat -e -p ${{ matrix.python-arch }}
       
-      - name: Compile Python (x86)
+      - name: Compile Python (AMD64)
         shell: cmd
         run: |
           cd cpython
-          PCbuild\build.bat -e
+          PCbuild\build.bat -e -p amd64
 
       - name: Build Python
         run: |
           mkdir pythonbuild
-          cpython\PCbuild\win32\python.exe PC/layout -vv -s "." -b ".\PCBuild\arm64" -t ".\PCBuild\temp" --include-venv --copy pythonbuild
+          ".\cpython\PCbuild\amd64\python.exe" PC/layout -vv -s "." -b ".\cpython\PCBuild\arm64" -t ".\cpython\PCBuild\temp" --include-venv --copy pythonbuild
 
-      - uses: actions/upload-artifact@v1
+      - name: Upload Build
+        uses: actions/upload-artifact@v1
         with:
           name: cpython-${{ matrix.python-arch }}
           path: pythonbuild
