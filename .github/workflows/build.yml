@@ -17,20 +17,20 @@ jobs:
           cd cpython
           git checkout ${{ matrix.python-branch }}
           PCbuild\build.bat -e -p ${{ matrix.python-arch }}
-
-      - name: Create zip
+      
+      - name: Compile Python (x86)
         shell: cmd
         run: |
-          mkdir cpython\PCBuild\${{ matrix.python-arch }}\lib
-          mkdir cpython\PCBuild\${{ matrix.python-arch }}\include
-          mkdir cpython\PCBuild\${{ matrix.python-arch }}\libs
-          
-          xcopy /i /e cpython\lib\*.* cpython\PCBuild\arm64\lib
-          xcopy /i /e cpython\include\*.* cpython\PCBuild\arm64\include
-          xcopy /i /e cpython\PC\pyconfig.h cpython\PCBuild\arm64\include
-          xcopy.exe /y "cpython\PCBuild\arm64\python*.lib" "cpython\PCBuild\arm64\libs\"
+          cd cpython
+          PCbuild\build.bat -e
+
+      - name: Build Python
+        shell: cmd
+        run: |
+          mkdir pythonbuild
+          cpython\PCbuild\win32\python.exe PC/layout -vv -s "." -b ".\PCBuild\arm64" -t ".\PCBuild\temp" --include-venv --copy pythonbuild
 
       - uses: actions/upload-artifact@v1
         with:
           name: cpython-${{ matrix.python-arch }}
-          path: cpython\PCBuild\${{ matrix.python-arch }}
+          path: pythonbuild
