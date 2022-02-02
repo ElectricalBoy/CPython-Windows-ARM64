@@ -25,7 +25,6 @@ jobs:
           PCbuild\build.bat -e
 
       - name: Build Python
-        shell: cmd
         run: |
           mkdir pythonbuild
           cpython\PCbuild\win32\python.exe PC/layout -vv -s "." -b ".\PCBuild\arm64" -t ".\PCBuild\temp" --include-venv --copy pythonbuild
