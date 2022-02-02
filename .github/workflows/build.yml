@@ -20,13 +20,18 @@ jobs:
           architecture: x64
 
       - name: Clone source
-        run:  |
-          git clone ${{ matrix.python-remote }}
+        uses: actions/checkout@v2.4.0
+        with:
+          # Repository name with owner. For example, actions/checkout
+          repository: python/cpython
+          # The branch, tag or SHA to checkout. When checking out the repository that triggered a workflow, this defaults to the reference or SHA for that event.  Otherwise, uses the default branch.
+          ref: ${{ matrix.python-branch }}
+          # Relative path under $GITHUB_WORKSPACE to place the repository
+          path: cpython
     
       - name: Compile Python
         run: |
           cd cpython
-          git checkout ${{ matrix.python-branch }}
           PCbuild\build.bat -e -p ${{ matrix.python-arch }}
 
       - name: Build Python
