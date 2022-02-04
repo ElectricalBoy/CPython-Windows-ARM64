@@ -40,7 +40,7 @@ jobs:
           python ".\cpython\PC\layout" -vv -s ".\cpython" -b ".\cpython\PCBuild\arm64" -t ".\cpython\PCBuild\temp" --include-venv --copy pythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
 
       - name: Upload Build
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2.3.1
         with:
           name: cpythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
           path: pythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
