@@ -8,7 +8,7 @@ jobs:
       matrix:
         python-remote: ['https://github.com/python/cpython']
         python-branch: ['3.9','3.10','main']
-        python-arch: ['arm64','AMD64']
+        python-arch: ['arm64','x64']
 
     steps:
       - name: Setup Python
