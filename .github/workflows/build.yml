@@ -7,8 +7,8 @@ jobs:
     strategy:
       matrix:
         python-remote: ['https://github.com/python/cpython']
-        python-branch: ['3.10']
-        python-arch: ['arm64']
+        python-branch: ['3.9','3.10','main']
+        python-arch: ['arm64','AMD64']
 
     steps:
       - name: Setup Python
@@ -36,11 +36,11 @@ jobs:
 
       - name: Build Python
         run: |
-          mkdir pythonbuild
-          python ".\cpython\PC\layout" -vv -s ".\cpython" -b ".\cpython\PCBuild\arm64" -t ".\cpython\PCBuild\temp" --include-venv --copy pythonbuild
+          mkdir pythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
+          python ".\cpython\PC\layout" -vv -s ".\cpython" -b ".\cpython\PCBuild\arm64" -t ".\cpython\PCBuild\temp" --include-venv --copy pythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
 
       - name: Upload Build
         uses: actions/upload-artifact@v1
         with:
-          name: cpython-${{ matrix.python-arch }}
-          path: pythonbuild
+          name: cpythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
+          path: pythonbuild-${{ matrix.python-branch }}-${{ matrix.python-arch }}
