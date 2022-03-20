@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        python-remote: ['https://github.com/python/cpython']
+        python-remote: ['python/cpython']
         python-branch: ['3.10']
         python-arch: ['arm64']
 
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           # Repository name with owner. For example, actions/checkout
-          repository: python/cpython
+          repository: ${{ matrix.python-remote }}
           # The branch, tag or SHA to checkout. When checking out the repository that triggered a workflow, this defaults to the reference or SHA for that event.  Otherwise, uses the default branch.
           ref: ${{ matrix.python-branch }}
           # Relative path under $GITHUB_WORKSPACE to place the repository
