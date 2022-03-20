@@ -20,7 +20,7 @@ jobs:
           architecture: x64
 
       - name: Clone source
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
         with:
           # Repository name with owner. For example, actions/checkout
           repository: python/cpython
