@@ -3,6 +3,7 @@ on: [push, pull_request,workflow_dispatch]
 
 jobs:
   build:
+    name: Build CPython v${{ matrix.python-branch }}.x for ${{ matrix.python-arch }}
     runs-on: windows-2022
     strategy:
       matrix:
