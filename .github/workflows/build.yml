@@ -45,3 +45,40 @@ jobs:
         with:
           name: cpython-${{ matrix.python-arch }}
           path: pythonbuild
+
+  build-msi:
+    name: Build CPython v${{ matrix.python-branch }}.x installer for ${{ matrix.python-arch }}
+    runs-on: windows-2022
+    strategy:
+      matrix:
+        python-remote: ['ElectricalBoy/cpython']
+        python-branch: ['3.10']
+        python-arch: ['arm64']
+
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          # Version range or exact version of a Python version to use, using SemVer's version range syntax.
+          python-version: ${{ matrix.python-branch }}.x
+          # The target architecture (x86, x64) of the Python interpreter.
+          architecture: x64
+
+      - name: Clone source
+        uses: actions/checkout@v3
+        with:
+          # Repository name with owner. For example, actions/checkout
+          repository: ${{ matrix.python-remote }}
+          # The branch, tag or SHA to checkout. When checking out the repository that triggered a workflow, this defaults to the reference or SHA for that event.  Otherwise, uses the default branch.
+          ref: ${{ matrix.python-branch }}
+          # Relative path under $GITHUB_WORKSPACE to place the repository
+    
+      - name: Build Python Installer
+        run: |
+          .\Tools\msi\build.bat -arm64
+
+      - name: Upload Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: cpython-installer-${{ matrix.python-arch }}
+          path: PCbuild\arm64\en-us
